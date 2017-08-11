@@ -1,16 +1,16 @@
-import { createReducer } from './SimpleStore';
+class EmployeeList {
+  name = 'employeeList';
 
-const initialState = [{
-  name: 'Bob',
-  rank: 'Manager',
-  sn: (new Date()).valueOf()
-}];
+  initialState = [{
+    name: 'Bob',
+    rank: 'Manager',
+    sn: (new Date()).valueOf()
+  }];
 
-const EmployeeActions = {
   addEmployee(employeeList, { name, rank, sn }) {
     employeeList.push({ name, rank, sn });
     return [...employeeList];
-  },
+  }
 
   removeEmployee(employeeList, employee) {
     const index = employeeList.indexOf(employee);
@@ -21,8 +21,6 @@ const EmployeeActions = {
 
     return [...employeeList];
   }
-};
+}
 
-const employeeList = createReducer('employeeList', EmployeeActions, initialState);
-
-export { employeeList, EmployeeActions };
+export default new EmployeeList();

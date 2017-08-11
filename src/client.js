@@ -1,11 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
-import { employeeList } from './stores/employeeList';
-import { appState } from './stores/appState';
+import EmployeeList from './stores/EmployeeList';
+import AppState from './stores/AppState';
 import { createSimpleStore } from './stores/SimpleStore';
+import io from 'socket.io-client';
 
-const store = createSimpleStore(employeeList, appState);
+const socket = io();
+
+socket.on('reconnect', () => {
+  window.location.reload();
+});
+
+const store = createSimpleStore(EmployeeList, AppState);
 
 ReactDOM.render(
   <App store={store}/>,

@@ -2,14 +2,14 @@
 
 A more opinionated, better-fleshed-out fullstack framework for No.BS.
 
-In addition to Node Bootstrap's isomorphic build, package management, and API,
-Meatier.JS includes:
+In addition to Node Bootstrap's features, Meatier.JS includes:
 
 * react/redux support
-  (plus utilities to eliminate redux boilerplate code)
+  - (plus utilities to eliminate redux boilerplate code)
 * PostCSS
 * unit testing with Jest
-* Isomorphic data storage with miniMongo
+* isomorphic data storage with miniMongo
+* multi-environment configs
 
 ### Usage
 

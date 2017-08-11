@@ -1,7 +1,7 @@
 import React from 'react';
 import { createContainer } from '../stores/SimpleStore';
-import { EmployeeActions } from '../stores/employeeList.js'
-import { AppActions } from '../stores/appState';
+import EmployeeList from '../stores/EmployeeList.js'
+import AppState from '../stores/AppState';
 import sayHello from '../lib/sayHello';
 
 sayHello();
@@ -32,9 +32,9 @@ export function AppComponent({
   return (
     <div>
       <form name="add-employee-form" onSubmit={(e) => {
+        e.preventDefault();
         addEmployee({ name, rank, sn });
         reset();
-        e.preventDefault();
       }}>
         Name:
         <input type="text" value={name} onChange={onChange('name')}/><br/>
@@ -56,7 +56,4 @@ export function AppComponent({
   );
 }
 
-export default createContainer(AppComponent, {
-  ...EmployeeActions,
-  ...AppActions
-});
+export default createContainer(AppComponent, EmployeeList, AppState);
