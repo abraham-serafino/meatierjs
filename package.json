@@ -1,0 +1,67 @@
+{
+  "version": "0.0.1",
+  "main": "dist/server.js",
+  "dependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
+    "babel-preset-latest": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "babelify": "^7.3.0",
+    "cross-env": "^5.0.5",
+    "execa": "^0.7.0",
+    "express": "^4.15.3",
+    "express-browserify": "^1.0.2",
+    "import-export": "^1.0.1",
+    "jsonfile": "^3.0.1",
+    "lodash.reverse": "^4.0.1",
+    "moment": "^2.18.1",
+    "nodemon": "^1.11.0",
+    "npm-install-global": "^1.0.0",
+    "npm-run-all": "^4.0.2",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
+    "require-dir": "^0.3.2",
+    "socket.io": "^2.0.3",
+    "socket.io-client": "^2.0.3",
+    "socket.io-frontend": "^0.0.2",
+    "unzip": "^0.1.11",
+    "yarn-api": "^1.1.0"
+  },
+  "babel": {
+    "minified": true,
+    "sourceMap": true,
+    "presets": [
+      "latest",
+      "stage-0",
+      "react"
+    ],
+    "plugins": [
+      "transform-es2015-modules-commonjs"
+    ],
+    "ignore": [
+      "dist/**/*",
+      "node_modules/**/*",
+      "nobs.js"
+    ]
+  },
+  "scripts": {
+    "babel": "babel src --out-dir dist/ --copy-files",
+    "browserify": "browserify src/client.js -o dist/public/client.js -t [ babelify ] --debug",
+    "build": "npm-run-all babel browserify",
+    "start": "node dist/server.js",
+    "dev": "cross-env NODE_ENV=dev nodemon -e js,jsx,css,html,json,less,scss,sass --watch src --exec 'babel-node index.js'"
+  },
+  "bugs": {
+    "url": "https://github.com/abraham-serafino/nobs/issues"
+  },
+  "bin": {
+    "nobs": "nobs.js"
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "name": "meatierjs"
+}
