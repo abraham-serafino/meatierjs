@@ -51,12 +51,18 @@ function createReducer(model) {
 }
 
 function createSimpleStore(...reducers) {
+  const devTools = (
+      (typeof window !== 'undefined') &&
+          window.__REDUX_DEVTOOLS_EXTENSION__ &&
+          window.__REDUX_DEVTOOLS_EXTENSION__()
+  ) || undefined;
+
   return createStore(combineReducers(
       reducers.reduce(
           (obj, reducer) => ({ ...obj, ...createReducer(reducer) }),
           {}
       )
-  ));
+  ), devTools);
 }
 
 export {
