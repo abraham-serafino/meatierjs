@@ -8,10 +8,10 @@ test('App component should render', () => {
   const props = {
     appState: { name: 'Jane', rank: 'CEO' },
     employeeList: [
-      { name: 'Jane', rank: 'CEO', sn: (new Date()).valueOf() },
-      { name: 'John', rank: 'Manager', sn: (new Date()).valueOf() },
-      { name: 'Alice', rank: 'Sales Rep', sn: (new Date()).valueOf() },
-      { name: 'Bob', rank: 'Janitor', sn: (new Date()).valueOf() }
+      { name: 'Jane', rank: 'CEO', sn: 1 },
+      { name: 'John', rank: 'Manager', sn: 2 },
+      { name: 'Alice', rank: 'Sales Rep', sn: 3 },
+      { name: 'Bob', rank: 'Janitor', sn: 4 }
     ],
 
     addEmployee: noop,
@@ -19,7 +19,7 @@ test('App component should render', () => {
     updateName: noop,
     updateRank: noop,
     reset: noop
-  }
+  };
 
   expect(shallow(<AppComponent {...props} />)).toMatchSnapshot();
 });
