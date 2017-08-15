@@ -1,19 +1,18 @@
-class AppState {
-  name = 'appState';
+const AppState = {
+  name: 'appState',
+  initialState: { name: '', rank: '' },
 
-  initialState = { name: '', rank: '' };
+  updateName(appState, name) {
+    return { ...appState, name };
+  },
 
-  updateName(app, name) {
-    return { ...app, name };
+  updateRank(appState, rank) {
+    return { ...appState, rank };
+  },
+
+  reset() {
+    return this.initialState;
   }
+};
 
-  updateRank(app, rank) {
-    return { ...app, rank };
-  }
-
-  reset(app) {
-    return initialState;
-  }
-}
-
-export default new AppState();
+export default AppState;

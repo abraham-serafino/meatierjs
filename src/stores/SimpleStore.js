@@ -1,58 +1,46 @@
 import { connect } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 
-function flatten(ary) {
-  return ary.reduce(
-      (obj, item) => ({ ...obj, ...item }),
-      {}
-  );
-}
-
 function createActions(actions) {
   const actionCreators = {};
 
-  for (const actionName of
-      Object.getOwnPropertyNames(Object.getPrototypeOf(actions))
-  ) {
+  for (const actionName of Object.keys(actions)) {
     if (typeof actions[actionName] === 'function') {
       actionCreators[actionName] = (payload) =>
-          ({type: actionName, payload});
+          ({ type: actionName, payload });
     }
   }
 
   return actionCreators;
 }
 
-function createContainer(component, ...models) {
+function createContainer(component, ...actions) {
   return connect(
-      (state) => state,
-      flatten(models.map((model) => createActions(model)))
+      (state) => {
+        console.log(state);
+        return state;
+      },
+      actions.reduce(
+          (obj, methods) => ({ ...obj, ...createActions(methods) }),
+          {}
+      )
   )(
       component
   );
 }
 
-function createReducer(model) {
-  const { name, initialState } = model;
+function createReducer(methods) {
+  const { name, initialState } = methods;
 
   return {
     [name](state = initialState, action = {}) {
       const {type = '', payload} = action;
 
-      const methods = flatten(
-          Object.getOwnPropertyNames(Object.getPrototypeOf(model))
-          .map((key) =>
-              typeof model[key] === 'function' ?
-                  { [key]: model[key] } :
-                  null
-          )
-        );
-
       if (type.startsWith('@@redux')) {
         return state;
       }
 
-      if (methods[type]) {
+      if (typeof methods[type] === 'function') {
         return methods[type](state, payload);
       }
 
@@ -62,10 +50,17 @@ function createReducer(model) {
 }
 
 function createSimpleStore(...reducers) {
-  const newReducers = flatten(
-      reducers.map((reducer) => createReducer(reducer))
-  );
-  return createStore(combineReducers(newReducers));
+  return createStore(combineReducers(
+      reducers.reduce(
+          (obj, reducer) => ({ ...obj, ...reducer }),
+          {}
+      )
+  ));
 }
 
-export { createActions, createContainer, createReducer, createSimpleStore };
+export {
+  createActions,
+  createContainer,
+  createReducer,
+  createSimpleStore
+};
