@@ -1,16 +1,14 @@
-const EmployeeList = {
-  name: 'employeeList',
-
-  initialState: [{
+class employeeList {
+  initialState = [{
     name: 'Bob',
     rank: 'Manager',
     sn: (new Date()).valueOf()
-  }],
+  }];
 
   addEmployee(employeeList, { name, rank, sn }) {
     employeeList.push({ name, rank, sn });
     return [...employeeList];
-  },
+  }
 
   removeEmployee(employeeList, employee) {
     const index = employeeList.indexOf(employee);
@@ -20,7 +18,7 @@ const EmployeeList = {
     }
 
     return [...employeeList];
-  },
-};
+  }
+}
 
-export default EmployeeList;
+export default employeeList;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { createContainer } from '../stores/SimpleStore';
-import EmployeeList from '../stores/EmployeeList.js'
-import AppState from '../stores/AppState';
+import employeeList from '../stores/employeeList.js'
+import appState from '../stores/appState';
 import sayHello from '../lib/sayHello';
 
 sayHello();
@@ -56,4 +56,4 @@ export function AppComponent({
   );
 }
 
-export default createContainer(AppComponent, EmployeeList, AppState);
+export default createContainer(AppComponent, employeeList, appState);

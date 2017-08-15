@@ -3,9 +3,12 @@ import { createStore, combineReducers } from 'redux';
 
 function createActions(actions) {
   const actionCreators = {};
+  const proto = actions.prototype;
 
-  for (const actionName of Object.keys(actions)) {
-    if (typeof actions[actionName] === 'function') {
+  for (const actionName of Object.getOwnPropertyNames(proto)) {
+    if (!actionName.startsWith('_') &&
+        typeof proto[actionName] === 'function'
+    ) {
       actionCreators[actionName] = (payload) =>
           ({ type: actionName, payload });
     }
@@ -16,10 +19,7 @@ function createActions(actions) {
 
 function createContainer(component, ...actions) {
   return connect(
-      (state) => {
-        console.log(state);
-        return state;
-      },
+      (state) => state,
       actions.reduce(
           (obj, methods) => ({ ...obj, ...createActions(methods) }),
           {}
@@ -29,8 +29,9 @@ function createContainer(component, ...actions) {
   );
 }
 
-function createReducer(methods) {
-  const { name, initialState } = methods;
+function createReducer(model) {
+  const { name } = model;
+  const { initialState } = new model();
 
   return {
     [name](state = initialState, action = {}) {
@@ -40,8 +41,8 @@ function createReducer(methods) {
         return state;
       }
 
-      if (typeof methods[type] === 'function') {
-        return methods[type](state, payload);
+      if (typeof model.prototype[type] === 'function') {
+        return model.prototype[type].call(new model(), state, payload);
       }
 
       return state;
@@ -52,7 +53,7 @@ function createReducer(methods) {
 function createSimpleStore(...reducers) {
   return createStore(combineReducers(
       reducers.reduce(
-          (obj, reducer) => ({ ...obj, ...reducer }),
+          (obj, reducer) => ({ ...obj, ...createReducer(reducer) }),
           {}
       )
   ));
