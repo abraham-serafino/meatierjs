@@ -1,7 +1,7 @@
 import React from 'react';
-import { createContainer } from '../stores/SimpleStore';
-import employeeList from '../stores/employeeList.js'
-import appState from '../stores/appState';
+import { createContainer } from '../reducers/SimpleStore';
+import employeeList from '../reducers/employeeList.js'
+import appState from '../reducers/appState';
 import sayHello from '../lib/sayHello';
 
 sayHello();

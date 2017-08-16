@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
-import employeeList from './stores/employeeList';
-import appState from './stores/appState';
-import { createSimpleStore } from './stores/SimpleStore';
+import employeeList from './reducers/employeeList';
+import appState from './reducers/appState';
+import { createSimpleStore } from './reducers/SimpleStore';
 import io from 'socket.io-client';
 
 const socket = io();
