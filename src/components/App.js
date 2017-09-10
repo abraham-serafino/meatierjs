@@ -1,59 +1,70 @@
-import React from 'react';
-import { createContainer } from '../reducers/SimpleStore';
-import employeeList from '../reducers/employeeList.js'
-import appState from '../reducers/appState';
-import sayHello from '../lib/sayHello';
+import React, { Component } from 'react';
 
-sayHello();
+import bindModel from '../lib/bindModel';
+import { clientSocket } from '../lib/util';
+import { createContainer } from '../lib/SimpleStore';
+import db from '../lib/rethinkdb';
+import employeeList from '../reducers/employeeList';
+import Employees from '../models/Employees';
 
-export function AppComponent({
-  employeeList,
-  appState,
-  addEmployee,
-  removeEmployee,
-  updateName,
-  updateRank,
-  reset
-}) {
-  const { name, rank } = appState;
-  const sn = (new Date()).valueOf();
+let employeeService = null;
 
-  function onChange(field) {
-    const callUpdater = {
-      name: updateName,
-      rank: updateRank
-    };
+export class App extends Component {
+  state = { name: '', rank: '' };
 
-    return (e) => {
-      callUpdater[field](e.target.value);
-    };
+  componentDidMount() {
+    const { resetEmployees } = this.props;
+
+    db.subscribe('employees', resetEmployees);
+    employeeService = employeeService || new Employees(clientSocket, db);
   }
 
-  return (
-    <div>
-      <form name="add-employee-form" onSubmit={(e) => {
-        e.preventDefault();
-        addEmployee({ name, rank, sn });
-        reset();
-      }}>
-        Name:
-        <input type="text" value={name} onChange={onChange('name')}/><br/>
-        Rank:
-        <input type="text" value={rank} onChange={onChange('rank')}/><br/>
+  onSubmit = (e) => {
+    e.preventDefault();
 
-        <button type="submit">Add</button>
-      </form>
-      <ul>
-        {employeeList.map(employee =>
-          <li key={employee.sn}>
-            <button onClick={() => removeEmployee(employee)}>Remove</button>
-            &nbsp;
-            {employee.name} - {employee.rank}
-          </li>
-        )}
-      </ul>
-    </div>
-  );
+    const { name, rank } = this.state;
+    const sn = (new Date()).valueOf();
+    const { addEmployee } = this.props;
+
+    addEmployee({ name, rank, sn });
+    employeeService.create({ name, rank, sn });
+
+    this.state = { name: '', rank: '' };
+  };
+
+  onClick = (employee) => {
+    const { removeEmployee } = this.props;
+
+    return () => {
+      employeeService.remove(employee);
+      removeEmployee(employee);
+    };
+  };
+
+  render() {
+    const { model } = bindModel(this);
+    const { employeeList } = this.props;
+
+    return (
+        <div>
+          <form name="add-employee-form" onSubmit={this.onSubmit}>
+            Name: <input type="text" {...model('name')} /><br/>
+            Rank: <input type="text" {...model('rank')} /><br/>
+
+            <button type="submit">Add</button>
+          </form>
+
+          <ul>
+            {employeeList.map((employee) =>
+                <li key={employee.sn}>
+                  <button onClick={this.onClick(employee)}>Remove</button>
+                  &nbsp; {employee.name} - {employee.rank}
+                </li>
+            )}
+          </ul>
+        </div>
+    );
+  }
 }
 
-export default createContainer(AppComponent, employeeList, appState);
+export default createContainer(App, employeeList);

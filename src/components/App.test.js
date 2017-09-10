@@ -1,12 +1,11 @@
 import React from 'react';
-import { AppComponent } from './App';
 import { shallow } from 'enzyme';
 
-test('App component should render', () => {
-  const noop = () => {};
+import { App } from './App';
+import { noop } from '../lib/util';
 
+test('App component should render', () => {
   const props = {
-    appState: { name: 'Jane', rank: 'CEO' },
     employeeList: [
       { name: 'Jane', rank: 'CEO', sn: 1 },
       { name: 'John', rank: 'Manager', sn: 2 },
@@ -16,10 +15,8 @@ test('App component should render', () => {
 
     addEmployee: noop,
     removeEmployee: noop,
-    updateName: noop,
-    updateRank: noop,
-    reset: noop
+    resetEmployees: noop
   };
 
-  expect(shallow(<AppComponent {...props} />)).toMatchSnapshot();
+  expect(shallow(<App {...props} />)).toMatchSnapshot();
 });
