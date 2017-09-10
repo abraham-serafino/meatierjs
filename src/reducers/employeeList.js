@@ -10,6 +10,10 @@ class employeeList {
     return [...employeeList];
   }
 
+  resetEmployees(employeeList, newList) {
+    return newList;
+  }
+
   removeEmployee(employeeList, employee) {
     const index = employeeList.indexOf(employee);
 

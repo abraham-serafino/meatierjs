@@ -5,7 +5,6 @@ class SuperModel {
         socket.on(`${name}.${key}`, model.prototype[key].bind(this));
 
         this[key] = (...args) => {
-          model.prototype[key].call(this, ...args);
           socket.emit(`${name}.${key}`, ...args);
         }
       }
