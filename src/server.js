@@ -1,18 +1,25 @@
+import babelify from 'babelify';
+import browserify from 'express-browserify';
 import express from 'express';
 import http from 'http';
 import socket from 'socket.io';
-import babelify from 'babelify';
-import browserify from 'express-browserify';
 
-import getModels from './lib/getModels';
+import rethink from './lib/rethinkdb';
+import getModels from './server-init/getModels';
+import publish from './lib/publish';
+import seedTableData from './server-init/seedTableData';
 
 const app = express();
 const server = http.createServer(app);
-const io = socket(server);
 
-io.on('connection', (socket) => {
+socket(server).on('connection', (io) => {
   console.log('a user connected');
-  getModels({socket, db: null});
+
+  getModels(io);
+  seedTableData();
+
+  const { db } = rethink;
+  publish(io, 'employees', () => db.table('employees'));
 });
 
 app.use(express.static(`${__dirname}/public`));
@@ -27,6 +34,6 @@ if (process.env.NODE_ENV === 'dev') {
   }));
 }
 
-server.listen(8080, () => {
-  console.log('listening on :8080...');
+server.listen(9001, () => {
+  console.log('listening on :9001...');
 });
