@@ -6,7 +6,6 @@ import { createContainer } from '../lib/SimpleStore';
 import db from '../lib/rethinkdb';
 import employeeList from '../reducers/employeeList';
 import Employees from '../models/Employees';
-import subscribe from '../lib/subscribe';
 
 let employeeService = null;
 
@@ -16,7 +15,7 @@ export class App extends Component {
   componentDidMount() {
     const { resetEmployees } = this.props;
 
-    subscribe('employees', resetEmployees);
+    db.subscribe('employees', resetEmployees);
     employeeService = employeeService || new Employees(clientSocket, db);
   }
 

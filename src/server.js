@@ -6,7 +6,6 @@ import socket from 'socket.io';
 
 import rethink from './lib/rethinkdb';
 import getModels from './server-init/getModels';
-import publish from './lib/publish';
 import seedTableData from './server-init/seedTableData';
 
 const app = express();
@@ -18,7 +17,7 @@ socket(server).on('connection', (io) => {
   getModels(io);
   seedTableData();
 
-  const { db } = rethink;
+  const { db, publish } = rethink;
   publish(io, 'employees', () => db.table('employees'));
 });
 
