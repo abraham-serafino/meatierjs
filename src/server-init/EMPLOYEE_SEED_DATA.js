@@ -1,36 +1,15 @@
-const AUTHOR_SEED_DATA = [{
+const EMPLOYEE_SEED_DATA = [{
   name: "William Adama",
-  tv_show: "Battlestar Galactica",
-
-  posts: [{
-    title: "Decommissioning speech",
-    content: "The Cylon War is long over..."
-  }, {
-    title: "We are at war",
-    content: "Moments ago, this ship received word..."
-  }, {
-    title: "The new Earth",
-    content: "The discoveries of the past few days..."
-  }]
+  rank: "CEO",
+  sn: 1
 }, {
   name: "Laura Roslin",
-  tv_show: "Battlestar Galactica",
-
-  posts: [{
-    title: "The oath of office",
-    content: "I, Laura Roslin, ..."
-  }, {
-    title: "They look like us",
-    content: "The Cylons have the ability..."
-  }]
+  rank: "Manager",
+  sn: 2
 }, {
   name: "Jean-Luc Picard",
-  tv_show: "Star Trek TNG",
-
-  posts: [{
-    title: "Civil rights",
-    content: "There are some words I've known since..."
-  }]
+  rank: "Janitor",
+  sn: 3
 }];
 
-export default AUTHOR_SEED_DATA;
+export default EMPLOYEE_SEED_DATA;
