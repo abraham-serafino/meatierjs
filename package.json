@@ -2,6 +2,7 @@
   "version": "0.0.1",
   "main": "dist/server.js",
   "dependencies": {
+    "autoprefixer": "^7.1.4",
     "babel-cli": "^6.24.1",
     "babel-jest": "^20.0.3",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
@@ -9,7 +10,10 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "babelify": "^7.3.0",
+    "concurrently": "^3.5.0",
     "cross-env": "^5.0.5",
+    "css-mqpacker": "^6.0.1",
+    "cssnano": "^3.10.0",
     "enzyme": "^2.9.1",
     "execa": "^0.7.0",
     "express": "^4.15.3",
@@ -21,10 +25,17 @@
     "lodash.merge": "^4.6.0",
     "lodash.reverse": "^4.0.1",
     "lodash.set": "^4.3.2",
+    "lost": "^8.2.0",
     "moment": "^2.18.1",
     "nodemon": "^1.11.0",
     "npm-install-global": "^1.0.0",
     "npm-run-all": "^4.0.2",
+    "postcss-assets": "^5.0.0",
+    "postcss-cli": "^4.1.1",
+    "postcss-cssnext": "^3.0.2",
+    "postcss-font-awesome": "^0.3.4",
+    "postcss-scss": "^1.0.2",
+    "precss": "^2.0.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.6",
@@ -32,9 +43,11 @@
     "redux": "^3.7.2",
     "require-dir": "^0.3.2",
     "rethinkdb": "^2.3.3",
+    "rucksack-css": "^1.0.2",
     "socket.io": "^2.0.3",
     "socket.io-client": "^2.0.3",
     "socket.io-frontend": "^0.0.2",
+    "stylelint": "^8.1.1",
     "unzip": "^0.1.11",
     "yarn-api": "^1.1.0"
   },
@@ -56,13 +69,22 @@
     ]
   },
   "scripts": {
+    "postcss": "postcss -c ./postcss.config.js --dir src --base src -x css src/*.pcss src/**/*.pcss",
+    "postcss:watch": "postcss -c ./postcss.config.js --dir src --base src -x css --watch src/*.pcss src/**/*.pcss",
     "babel": "babel src --out-dir dist/ --copy-files",
     "browserify": "browserify src/client.js -o dist/public/client.js -t [ babelify ] --debug",
-    "build": "npm-run-all babel browserify",
+    "build": "npm-run-all babel postcss browserify test",
     "start": "node dist/server.js",
+    "start:watch": "cross-env NODE_ENV=dev nodemon",
     "test": "jest",
     "test:watch": "jest --watch",
-    "dev": "cross-env NODE_ENV=dev nodemon -e js,jsx,css,html,json,less,scss,sass --watch src --exec 'babel-node index.js'"
+    "dev": "concurrently 'npm run start:watch' 'npm run test:watch' 'npm run postcss:watch'"
+  },
+  "nodemonConfig": {
+    "ignore": ["*test.js"],
+    "ext": "js,jsx,html,json",
+    "watch": "src",
+    "exec": "babel-node index.js"
   },
   "bugs": {
     "url": "https://github.com/abraham-serafino/nobs/issues"
