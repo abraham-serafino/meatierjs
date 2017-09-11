@@ -1,5 +1,6 @@
 import babelify from 'babelify';
-import browserify from 'express-browserify';
+import browserify from 'browserify';
+import browserifyCss from 'browserify-css';
 import express from 'express';
 import http from 'http';
 import socket from 'socket.io';
@@ -24,13 +25,21 @@ socket(server).on('connection', (io) => {
 app.use(express.static(`${__dirname}/public`));
 
 if (process.env.NODE_ENV === 'dev') {
-  app.get('/client.js', browserify('./src/client.js', {
-    transform: babelify.configure({
-        presets: ['latest', 'stage-0', 'react'],
-        plugins: ['transform-es2015-modules-commonjs']
-      }),
-    debug: true
-  }));
+  app.get('/client.js', (req, res) => {
+      browserify({ debug: true })
+        .require('babel-core/register')
+        .require('babel-polyfill')
+        .add('src/client.js')
+        .transform('babelify', {
+          presets: ['env', 'stage-0', 'react'],
+          plugins: ['transform-es2015-modules-commonjs', "transform-runtime"],
+          minified: true,
+          sourceMap: true
+        })
+        .transform('browserify-css', { autoInject: true })
+        .bundle()
+        .pipe(res);
+  });
 }
 
 server.listen(9001, () => {

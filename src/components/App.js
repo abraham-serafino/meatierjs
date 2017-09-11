@@ -7,6 +7,8 @@ import db from '../lib/rethinkdb';
 import employeeList from '../reducers/employeeList';
 import Employees from '../models/Employees';
 
+import './App.css';
+
 let employeeService = null;
 
 export class App extends Component {

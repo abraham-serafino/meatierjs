@@ -6,10 +6,13 @@
     "babel-cli": "^6.24.1",
     "babel-jest": "^20.0.3",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
-    "babel-preset-latest": "^6.24.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "babelify": "^7.3.0",
+    "browserify": "^14.4.0",
+    "browserify-css": "^0.12.0",
     "concurrently": "^3.5.0",
     "cross-env": "^5.0.5",
     "css-mqpacker": "^6.0.1",
@@ -20,6 +23,7 @@
     "express-browserify": "^1.0.2",
     "import-export": "^1.0.1",
     "jest": "^20.0.4",
+    "jest-css-modules": "^1.1.0",
     "jsonfile": "^3.0.1",
     "lodash.get": "^4.4.2",
     "lodash.merge": "^4.6.0",
@@ -41,6 +45,7 @@
     "react-redux": "^5.0.6",
     "react-test-renderer": "^15.6.1",
     "redux": "^3.7.2",
+    "regenerator-runtime": "^0.11.0",
     "require-dir": "^0.3.2",
     "rethinkdb": "^2.3.3",
     "rucksack-css": "^1.0.2",
@@ -53,14 +58,14 @@
   },
   "babel": {
     "minified": true,
-    "sourceMap": true,
     "presets": [
-      "latest",
+      "env",
       "stage-0",
       "react"
     ],
     "plugins": [
-      "transform-es2015-modules-commonjs"
+      "transform-es2015-modules-commonjs",
+      "transform-runtime"
     ],
     "ignore": [
       "dist/**/*",
@@ -68,12 +73,25 @@
       "nobs.js"
     ]
   },
+  "browserify": {
+    "transform": [
+      [
+        "babelify"
+      ],
+      [
+        "browserify-css",
+        {
+          "autoInject": true
+        }
+      ]
+    ]
+  },
   "scripts": {
     "postcss": "postcss -c ./postcss.config.js --dir src --base src -x css src/*.pcss src/**/*.pcss",
     "postcss:watch": "postcss -c ./postcss.config.js --dir src --base src -x css --watch src/*.pcss src/**/*.pcss",
     "babel": "babel src --out-dir dist/ --copy-files",
-    "browserify": "browserify src/client.js -o dist/public/client.js -t [ babelify ] --debug",
-    "build": "npm-run-all babel postcss browserify test",
+    "browserify": "browserify src/client.js -o dist/public/client.js",
+    "build": "npm-run-all postcss babel browserify test",
     "start": "node dist/server.js",
     "start:watch": "cross-env NODE_ENV=dev nodemon",
     "test": "jest",
@@ -81,8 +99,10 @@
     "dev": "concurrently 'npm run start:watch' 'npm run test:watch' 'npm run postcss:watch'"
   },
   "nodemonConfig": {
-    "ignore": ["*test.js"],
-    "ext": "js,jsx,html,json",
+    "ignore": [
+      "*test.js"
+    ],
+    "ext": "js,jsx,html,json,css",
     "watch": "src",
     "exec": "babel-node index.js"
   },
@@ -95,5 +115,15 @@
   "directories": {
     "lib": "lib"
   },
-  "name": "meatierjs"
+  "name": "No.BS",
+  "jest": {
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/dist/"
+    ],
+    "transform": {
+      ".*": "jest-css-modules",
+      "^.+\\.js$": "babel-jest"
+    }
+  }
 }
