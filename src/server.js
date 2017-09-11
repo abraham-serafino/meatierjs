@@ -42,7 +42,7 @@ if (process.env.NODE_ENV === 'dev') {
           inject: true,
           postCssOptions: {
             parser: postcssScss,
-            map: { inline: true }
+            map: { inline: true },
           }
         }],
 

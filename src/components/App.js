@@ -7,7 +7,7 @@ import db from '../lib/rethinkdb';
 import employeeList from '../reducers/employeeList';
 import Employees from '../models/Employees';
 
-import './App.css';
+import './App.scss';
 
 let employeeService = null;
 

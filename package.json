@@ -49,6 +49,7 @@
     "require-dir": "^0.3.2",
     "rethinkdb": "^2.3.3",
     "rucksack-css": "^1.0.2",
+    "scssify": "^2.3.0",
     "socket.io": "^2.0.3",
     "socket.io-client": "^2.0.3",
     "socket.io-frontend": "^0.0.2",
@@ -77,19 +78,13 @@
     "transform": [
       [
         "babelify"
-      ],
-      [
-        "browserify-css",
-        {
-          "autoInject": true
-        }
       ]
     ]
   },
   "scripts": {
-    "postcss": "postcss -c ./postcss.config.js --dir dist --base src -x css src/*.css src/**/*.css",
+    "postcss": "postcss -c ./postcss.config.js --dir dist --base src -x scss src/*.scss src/**/*.scss",
     "babel": "babel src --out-dir dist/ --copy-files",
-    "browserify": "browserify dist/client.js -o dist/public/client.js",
+    "browserify": "browserify dist/client.js -o dist/public/client.js -t [ scssify --autoinject=true ]",
     "build": "npm-run-all babel postcss browserify",
     "start": "node dist/server.js",
     "test": "jest",
