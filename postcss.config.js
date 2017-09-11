@@ -1,5 +1,5 @@
 module.exports = {
-  map: { inline: false },
+  map: { inline: true },
   parser: 'postcss-scss',
   plugins: [
     require('autoprefixer')(),

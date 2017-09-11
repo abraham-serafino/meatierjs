@@ -13,7 +13,7 @@
     "babelify": "^7.3.0",
     "browserify": "^14.4.0",
     "browserify-css": "^0.12.0",
-    "concurrently": "^3.5.0",
+    "browserify-postcss": "^0.3.3",
     "cross-env": "^5.0.5",
     "css-mqpacker": "^6.0.1",
     "cssnano": "^3.10.0",
@@ -87,16 +87,14 @@
     ]
   },
   "scripts": {
-    "postcss": "postcss -c ./postcss.config.js --dir src --base src -x css src/*.pcss src/**/*.pcss",
-    "postcss:watch": "postcss -c ./postcss.config.js --dir src --base src -x css --watch src/*.pcss src/**/*.pcss",
+    "postcss": "postcss -c ./postcss.config.js --dir dist --base src -x css src/*.css src/**/*.css",
     "babel": "babel src --out-dir dist/ --copy-files",
-    "browserify": "browserify src/client.js -o dist/public/client.js",
-    "build": "npm-run-all postcss babel browserify test",
+    "browserify": "browserify dist/client.js -o dist/public/client.js",
+    "build": "npm-run-all babel postcss browserify",
     "start": "node dist/server.js",
-    "start:watch": "cross-env NODE_ENV=dev nodemon",
     "test": "jest",
     "test:watch": "jest --watch",
-    "dev": "concurrently 'npm run start:watch' 'npm run test:watch' 'npm run postcss:watch'"
+    "dev": "cross-env NODE_ENV=dev nodemon"
   },
   "nodemonConfig": {
     "ignore": [
@@ -125,5 +123,6 @@
       ".*": "jest-css-modules",
       "^.+\\.js$": "babel-jest"
     }
-  }
+  },
+  "license": "MIT"
 }

@@ -1,0 +1,6 @@
+$borderRadius: 10%;
+
+input {
+  border-radius: $borderRadius;
+  border-bottom-width: thin;
+}

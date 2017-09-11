@@ -1,8 +1,7 @@
-import babelify from 'babelify';
-import browserify from 'browserify';
-import browserifyCss from 'browserify-css';
+import browserify from 'express-browserify';
 import express from 'express';
 import http from 'http';
+import postcssScss from 'postcss-scss';
 import socket from 'socket.io';
 
 import rethink from './lib/rethinkdb';
@@ -25,21 +24,34 @@ socket(server).on('connection', (io) => {
 app.use(express.static(`${__dirname}/public`));
 
 if (process.env.NODE_ENV === 'dev') {
-  app.get('/client.js', (req, res) => {
-      browserify({ debug: true })
-        .require('babel-core/register')
-        .require('babel-polyfill')
-        .add('src/client.js')
-        .transform('babelify', {
+  const plugin = [
+    'autoprefixer',
+    'css-mqpacker',
+    'cssnano',
+    'lost',
+    'postcss-assets',
+    'postcss-cssnext',
+    'precss'
+  ];
+
+  app.get('/client.js', browserify('src/client.js', {
+    debug: true,
+    transform: [
+        ['browserify-postcss', {
+          plugin,
+          inject: true,
+          postCssOptions: {
+            parser: postcssScss,
+            map: { inline: true }
+          }
+        }],
+
+        ['babelify', {
           presets: ['env', 'stage-0', 'react'],
-          plugins: ['transform-es2015-modules-commonjs', "transform-runtime"],
-          minified: true,
-          sourceMap: true
-        })
-        .transform('browserify-css', { autoInject: true })
-        .bundle()
-        .pipe(res);
-  });
+          plugins: ['transform-es2015-modules-commonjs']
+        }]
+    ]
+  }));
 }
 
 server.listen(9001, () => {
