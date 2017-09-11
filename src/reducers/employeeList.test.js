@@ -22,6 +22,6 @@ test('Employee List - reset employees', () => {
   const bob = { name: 'Bob', rank: 'Manager', sn: 1 };
   const sally = { name: 'Sally', rank: 'CEO', sn: 2 };
 
-  expect(new employeeList().resetEmployees([bob, sally]))
+  expect(new employeeList().resetEmployees([], [bob, sally]))
     .toEqual([bob, sally]);
 });

@@ -26,9 +26,9 @@ app.use(express.static(`${__dirname}/public`));
 if (process.env.NODE_ENV === 'dev') {
   app.get('/client.js', browserify('./src/client.js', {
     transform: babelify.configure({
-      presets: ['latest', 'stage-0', 'react'],
-      plugins: ['transform-es2015-modules-commonjs']
-    }),
+        presets: ['latest', 'stage-0', 'react'],
+        plugins: ['transform-es2015-modules-commonjs']
+      }),
     debug: true
   }));
 }

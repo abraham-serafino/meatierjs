@@ -1,21 +1,13 @@
 module.exports = {
-  use: [
-    'assets',
-    'autoprefixer',
-    'cssnano',
-    'cssnext',
-    'focus',
-    'font-awesome',
-    'font-magician',
-    'write-svg',
-    'import',
-    'lost',
-    'css-mqpacker',
-    'normalize',
-    'precss',
-    'rucksack-css',
-    'simple-vars',
-    'sprites',
-    'stylelint'
+  map: { inline: false },
+  parser: 'postcss-scss',
+  plugins: [
+    require('autoprefixer')(),
+    require('css-mqpacker')(),
+    require('cssnano')(),
+    require('lost')(),
+    require('postcss-assets')(),
+    require('postcss-cssnext')(),
+    require('precss')()
   ]
 };
