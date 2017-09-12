@@ -8,6 +8,9 @@ module.exports = {
     require('lost')(),
     require('postcss-assets')(),
     require('postcss-cssnext')(),
-    require('precss')()
+    require('postcss-font-awesome')(),
+    require('precss')(),
+    require('rucksack-css')(),
+    require('stylelint')()
   ]
 };

@@ -1,5 +1,18 @@
 import React, { Component } from 'react';
 
+import {
+  Button,
+  Col,
+  ControlLabel,
+  Form,
+  FormControl,
+  FormGroup,
+  Glyphicon,
+  ListGroup,
+  ListGroupItem,
+  Row
+} from 'react-bootstrap';
+
 import bindModel from '../lib/bindModel';
 import { clientSocket } from '../lib/util';
 import { createContainer } from '../lib/SimpleStore';
@@ -48,23 +61,46 @@ export class App extends Component {
     const { employeeList } = this.props;
 
     return (
-        <div>
-          <form name="add-employee-form" onSubmit={this.onSubmit}>
-            Name: <input type="text" {...model('name')} /><br/>
-            Rank: <input type="text" {...model('rank')} /><br/>
+        <Row>
+          <Col sm={5}>
+            <Form horizontal name="add-employee-form" onSubmit={this.onSubmit}>
+              <FormGroup controlId="formName">
+                <Col componentClass={ControlLabel} sm={4}>
+                  Full Name
+                </Col>
+                <Col sm={8}>
+                  <FormControl type="text" {...model('name')} /><br/>
+                </Col>
+              </FormGroup>
 
-            <button type="submit">Add</button>
-          </form>
+              <FormGroup controlId="formRank">
+                <Col componentClass={ControlLabel} sm={4}>
+                  Rank
+                </Col>
+                <Col sm={8}>
+                  <FormControl type="text" {...model('rank')} /><br/>
+                </Col>
+              </FormGroup>
 
-          <ul>
-            {employeeList.map((employee) =>
-                <li key={employee.sn}>
-                  <button onClick={this.onClick(employee)}>Remove</button>
-                  &nbsp; {employee.name} - {employee.rank}
-                </li>
-            )}
-          </ul>
-        </div>
+              <FormGroup>
+                <Col smOffset={4} sm={3}>
+                  <Button type="submit">Add</Button>
+                </Col>
+              </FormGroup>
+            </Form>
+          </Col>
+
+          <Col smOffset={1} sm={3}>
+            <ListGroup>
+              {employeeList.map((employee) =>
+                  <ListGroupItem key={employee.sn}>
+                    {employee.name} - {employee.rank}
+                    <Glyphicon glyph="remove" onClick={this.onClick(employee)} />
+                  </ListGroupItem>
+              )}
+            </ListGroup>
+          </Col>
+        </Row>
     );
   }
 }

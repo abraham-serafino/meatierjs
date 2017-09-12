@@ -6,14 +6,13 @@
     "babel-cli": "^6.24.1",
     "babel-jest": "^20.0.3",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
+    "babel-plugin-transform-postcss": "^0.3.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "babelify": "^7.3.0",
     "browserify": "^14.4.0",
-    "browserify-css": "^0.12.0",
-    "browserify-postcss": "^0.3.3",
     "cross-env": "^5.0.5",
     "css-mqpacker": "^6.0.1",
     "cssnano": "^3.10.0",
@@ -34,13 +33,15 @@
     "nodemon": "^1.11.0",
     "npm-install-global": "^1.0.0",
     "npm-run-all": "^4.0.2",
+    "postcss": "^6.0.11",
     "postcss-assets": "^5.0.0",
-    "postcss-cli": "^4.1.1",
     "postcss-cssnext": "^3.0.2",
     "postcss-font-awesome": "^0.3.4",
+    "postcss-modules": "^0.8.0",
     "postcss-scss": "^1.0.2",
     "precss": "^2.0.0",
     "react": "^15.6.1",
+    "react-bootstrap": "^0.31.3",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.6",
     "react-test-renderer": "^15.6.1",
@@ -65,8 +66,18 @@
       "react"
     ],
     "plugins": [
-      "transform-es2015-modules-commonjs",
-      "transform-runtime"
+      [
+        "transform-es2015-modules-commonjs"
+      ],
+      [
+        "transform-runtime"
+      ],
+      [
+        "transform-postcss",
+        {
+          "config": "postcss.config.js"
+        }
+      ]
     ],
     "ignore": [
       "dist/**/*",
@@ -78,14 +89,22 @@
     "transform": [
       [
         "babelify"
+      ],
+      [
+        "scssify",
+        {
+          "_flags": {
+            "debug": false
+          },
+          "autoInject": true
+        }
       ]
     ]
   },
   "scripts": {
-    "postcss": "postcss -c ./postcss.config.js --dir dist --base src -x scss src/*.scss src/**/*.scss",
     "babel": "babel src --out-dir dist/ --copy-files",
-    "browserify": "browserify dist/client.js -o dist/public/client.js -t [ scssify --autoinject=true ]",
-    "build": "npm-run-all babel postcss browserify",
+    "browserify": "browserify dist/client.js -o dist/public/client.js",
+    "build": "npm-run-all babel browserify",
     "start": "node dist/server.js",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -95,7 +114,7 @@
     "ignore": [
       "*test.js"
     ],
-    "ext": "js,jsx,html,json,css",
+    "ext": "js,jsx,html,json,css,scss",
     "watch": "src",
     "exec": "babel-node index.js"
   },
