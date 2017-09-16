@@ -2,11 +2,9 @@
   "version": "0.0.1",
   "main": "dist/server.js",
   "dependencies": {
-    "autoprefixer": "^7.1.4",
     "babel-cli": "^6.24.1",
     "babel-jest": "^20.0.3",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
-    "babel-plugin-transform-postcss": "^0.3.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
@@ -14,8 +12,6 @@
     "babelify": "^7.3.0",
     "browserify": "^14.4.0",
     "cross-env": "^5.0.5",
-    "css-mqpacker": "^6.0.1",
-    "cssnano": "^3.10.0",
     "enzyme": "^2.9.1",
     "execa": "^0.7.0",
     "express": "^4.15.3",
@@ -28,18 +24,10 @@
     "lodash.merge": "^4.6.0",
     "lodash.reverse": "^4.0.1",
     "lodash.set": "^4.3.2",
-    "lost": "^8.2.0",
     "moment": "^2.18.1",
     "nodemon": "^1.11.0",
     "npm-install-global": "^1.0.0",
     "npm-run-all": "^4.0.2",
-    "postcss": "^6.0.11",
-    "postcss-assets": "^5.0.0",
-    "postcss-cssnext": "^3.0.2",
-    "postcss-font-awesome": "^0.3.4",
-    "postcss-modules": "^0.8.0",
-    "postcss-scss": "^1.0.2",
-    "precss": "^2.0.0",
     "react": "^15.6.1",
     "react-bootstrap": "^0.31.3",
     "react-dom": "^15.6.1",
@@ -49,12 +37,10 @@
     "regenerator-runtime": "^0.11.0",
     "require-dir": "^0.3.2",
     "rethinkdb": "^2.3.3",
-    "rucksack-css": "^1.0.2",
     "scssify": "^2.3.0",
     "socket.io": "^2.0.3",
     "socket.io-client": "^2.0.3",
     "socket.io-frontend": "^0.0.2",
-    "stylelint": "^8.1.1",
     "unzip": "^0.1.11",
     "yarn-api": "^1.1.0"
   },
@@ -71,12 +57,6 @@
       ],
       [
         "transform-runtime"
-      ],
-      [
-        "transform-postcss",
-        {
-          "config": "postcss.config.js"
-        }
       ]
     ],
     "ignore": [
@@ -94,7 +74,7 @@
         "scssify",
         {
           "_flags": {
-            "debug": false
+            "debug": true
           },
           "autoInject": true
         }
@@ -135,7 +115,7 @@
     ],
     "transform": {
       ".*": "jest-css-modules",
-      "^.+\\.js$": "babel-jest"
+      "^*$": "babel-jest"
     }
   },
   "license": "MIT"
