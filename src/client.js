@@ -1,15 +1,15 @@
-import 'babel-core/register';
-import 'babel-polyfill';
-import React from 'react';
-import ReactDOM from 'react-dom';
+import browserExpress from 'browser-express';
 
-import App from './components/App';
-import { createSimpleStore } from './lib/SimpleStore';
-import employeeList from './reducers/employeeList';
+import app from './routes/app';
 
-const store = createSimpleStore(employeeList);
+const router = browserExpress({
+  interceptLinks: true,
+  interceptFormSubmit: true,
+  document,
+  window
+});
 
-ReactDOM.render(
-    <App store={store} />,
-    document.getElementById('app')
-);
+app(router);
+
+router.listen(() => {});
+router.navigate('/');

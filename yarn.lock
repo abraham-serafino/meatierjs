@@ -278,7 +278,7 @@ async@^1.4.0:
   version "1.5.2"
   resolved "https://registry.npmjs.org/async/-/async-1.5.2.tgz#ec6a61ae56480c0c3cb241c95618e20892f9672a"
 
-async@^2.1.4:
+async@^2.0.1, async@^2.1.4:
   version "2.5.0"
   resolved "https://registry.npmjs.org/async/-/async-2.5.0.tgz#843190fd6b7357a0b9e1c956edddd5ec8462b54d"
   dependencies:
@@ -1248,6 +1248,12 @@ braces@^1.8.2:
 brorand@^1.0.1:
   version "1.1.0"
   resolved "https://registry.npmjs.org/brorand/-/brorand-1.1.0.tgz#12c25efe40a45e3c323eb8675a0a0ce57b22371f"
+
+browser-express@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.npmjs.org/browser-express/-/browser-express-3.2.0.tgz#9e383f6ab9c26771f00ae8f91de6f16351b65a28"
+  dependencies:
+    async "^2.0.1"
 
 browser-pack@^5.0.0:
   version "5.0.1"
