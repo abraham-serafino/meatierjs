@@ -31,7 +31,7 @@ function publish(socket, collectionName, getQuery) {
       });
     });
   } catch (err) {
-    console.log(err.message);
+    console.error(err.message);
   }
 }
 
@@ -44,7 +44,7 @@ function subscribe(collectionName, callback) {
 if (typeof window === 'undefined') {
   db.connect({host: 'localhost', port: 28015}, (err, connection) => {
     if (err) {
-      console.log(JSON.stringify(err, null, 2));
+      console.error(JSON.stringify(err, null, 2));
       throw err;
     }
 

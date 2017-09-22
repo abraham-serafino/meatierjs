@@ -1,10 +1,11 @@
+/* global describe, it, expect */
 import employeeList from './employeeList';
 
 describe('Employee List', () => {
   it('Employee List - add employee', () => {
     expect(new employeeList().addEmployee(
-        [{ name: 'Bob', rank: 'Manager', sn: 1 }],
-        { name: 'Sally', rank: 'CEO', sn: 2 }
+      [{ name: 'Bob', rank: 'Manager', sn: 1 }],
+      { name: 'Sally', rank: 'CEO', sn: 2 }
     )).toEqual([
       { name: 'Bob', rank: 'Manager', sn: 1 },
       { name: 'Sally', rank: 'CEO', sn: 2 }
@@ -16,7 +17,7 @@ describe('Employee List', () => {
     const sally = { name: 'Sally', rank: 'CEO', sn: 2 };
 
     expect(new employeeList().removeEmployee([bob, sally], bob))
-    .toEqual([sally]);
+      .toEqual([sally]);
   });
 
   it('Employee List - reset employees', () => {
@@ -24,6 +25,6 @@ describe('Employee List', () => {
     const sally = { name: 'Sally', rank: 'CEO', sn: 2 };
 
     expect(new employeeList().resetEmployees([], [bob, sally]))
-    .toEqual([bob, sally]);
+      .toEqual([bob, sally]);
   });
 });

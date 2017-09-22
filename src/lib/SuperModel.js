@@ -6,7 +6,7 @@ class SuperModel {
 
         this[key] = (...args) => {
           socket.emit(`${name}.${key}`, ...args);
-        }
+        };
       }
     }
   }

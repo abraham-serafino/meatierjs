@@ -7,10 +7,10 @@ function createActions(actions) {
 
   for (const actionName of Object.getOwnPropertyNames(proto)) {
     if (!actionName.startsWith('_') &&
-        typeof proto[actionName] === 'function'
+      typeof proto[actionName] === 'function'
     ) {
       actionCreators[actionName] = (payload) =>
-          ({ type: actionName, payload });
+        ({ type: actionName, payload });
     }
   }
 
@@ -19,13 +19,13 @@ function createActions(actions) {
 
 function createContainer(component, ...actions) {
   return connect(
-      (state) => state,
-      actions.reduce(
-          (obj, methods) => ({ ...obj, ...createActions(methods) }),
-          {}
-      )
+    (state) => state,
+    actions.reduce(
+      (obj, methods) => ({ ...obj, ...createActions(methods) }),
+      {}
+    )
   )(
-      component
+    component
   );
 }
 
@@ -47,21 +47,21 @@ function createReducer(model) {
 
       return state;
     }
-  }
+  };
 }
 
 function createSimpleStore(...reducers) {
   const devTools = (
-      (typeof window !== 'undefined') &&
-          window.__REDUX_DEVTOOLS_EXTENSION__ &&
-          window.__REDUX_DEVTOOLS_EXTENSION__()
+    (typeof window !== 'undefined') &&
+      window.__REDUX_DEVTOOLS_EXTENSION__ &&
+      window.__REDUX_DEVTOOLS_EXTENSION__()
   ) || undefined;
 
   return createStore(combineReducers(
-      reducers.reduce(
-          (obj, reducer) => ({ ...obj, ...createReducer(reducer) }),
-          {}
-      )
+    reducers.reduce(
+      (obj, reducer) => ({ ...obj, ...createReducer(reducer) }),
+      {}
+    )
   ), devTools);
 }
 

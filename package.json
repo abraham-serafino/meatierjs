@@ -3,6 +3,7 @@
   "main": "dist/server.js",
   "dependencies": {
     "babel-cli": "^6.24.1",
+    "babel-eslint": "^8.0.0",
     "babel-jest": "^20.0.3",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
     "babel-plugin-transform-runtime": "^6.23.0",
@@ -28,6 +29,7 @@
     "nodemon": "^1.11.0",
     "npm-install-global": "^1.0.0",
     "npm-run-all": "^4.0.2",
+    "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-bootstrap": "^0.31.3",
     "react-dom": "^15.6.1",
@@ -82,9 +84,10 @@
     ]
   },
   "scripts": {
+    "lint": "eslint src/**/*.js",
     "babel": "babel src --out-dir dist/ --copy-files",
     "browserify": "browserify dist/client.js -o dist/public/client.js",
-    "build": "npm-run-all babel browserify",
+    "build": "npm-run-all lint babel browserify",
     "start": "node dist/server.js",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -118,5 +121,9 @@
       "^*$": "babel-jest"
     }
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^4.7.2",
+    "eslint-plugin-react": "7.3.0"
+  }
 }

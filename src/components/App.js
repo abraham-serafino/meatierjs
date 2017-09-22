@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 import {
@@ -44,7 +45,7 @@ export class App extends Component {
     addEmployee({ name, rank, sn });
     employeeService.create({ name, rank, sn });
 
-    this.state = { name: '', rank: '' };
+    this.setState ({ name: '', rank: '' });
   };
 
   onClick = (employee) => {
@@ -61,48 +62,55 @@ export class App extends Component {
     const { employeeList } = this.props;
 
     return (
-        <Row>
-          <Col sm={5}>
-            <Form horizontal name="add-employee-form" onSubmit={this.onSubmit}>
-              <FormGroup controlId="formName">
-                <Col componentClass={ControlLabel} sm={4}>
-                  Full Name
-                </Col>
-                <Col sm={8}>
-                  <FormControl type="text" {...model('name')} /><br/>
-                </Col>
-              </FormGroup>
+      <Row>
+        <Col sm={5}>
+          <Form horizontal name="add-employee-form" onSubmit={this.onSubmit}>
+            <FormGroup controlId="formName">
+              <Col componentClass={ControlLabel} sm={4}>
+                Full Name
+              </Col>
+              <Col sm={8}>
+                <FormControl type="text" {...model('name')} /><br/>
+              </Col>
+            </FormGroup>
 
-              <FormGroup controlId="formRank">
-                <Col componentClass={ControlLabel} sm={4}>
-                  Rank
-                </Col>
-                <Col sm={8}>
-                  <FormControl type="text" {...model('rank')} /><br/>
-                </Col>
-              </FormGroup>
+            <FormGroup controlId="formRank">
+              <Col componentClass={ControlLabel} sm={4}>
+                Rank
+              </Col>
+              <Col sm={8}>
+                <FormControl type="text" {...model('rank')} /><br/>
+              </Col>
+            </FormGroup>
 
-              <FormGroup>
-                <Col smOffset={4} sm={3}>
-                  <Button type="submit">Add</Button>
-                </Col>
-              </FormGroup>
-            </Form>
-          </Col>
+            <FormGroup>
+              <Col smOffset={4} sm={3}>
+                <Button type="submit">Add</Button>
+              </Col>
+            </FormGroup>
+          </Form>
+        </Col>
 
-          <Col smOffset={1} sm={3}>
-            <ListGroup>
-              {employeeList.map((employee) =>
-                  <ListGroupItem key={employee.sn}>
-                    {employee.name} - {employee.rank}
-                    <Glyphicon glyph="remove" onClick={this.onClick(employee)} />
-                  </ListGroupItem>
-              )}
-            </ListGroup>
-          </Col>
-        </Row>
+        <Col smOffset={1} sm={3}>
+          <ListGroup>
+            {employeeList.map((employee) =>
+              <ListGroupItem key={employee.sn}>
+                {employee.name} - {employee.rank}
+                <Glyphicon glyph="remove" onClick={this.onClick(employee)} />
+              </ListGroupItem>
+            )}
+          </ListGroup>
+        </Col>
+      </Row>
     );
   }
 }
+
+App.propTypes = {
+  resetEmployees: PropTypes.func,
+  addEmployee: PropTypes.func,
+  removeEmployee: PropTypes.func,
+  employeeList: PropTypes.array
+};
 
 export default createContainer(App, employeeList);
