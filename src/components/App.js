@@ -58,6 +58,7 @@ export class App extends Component {
     }
 
     this.setState({ employeeList });
+    employeeService.remove(employee);
   };
 
   onSubmit = (e) => {
