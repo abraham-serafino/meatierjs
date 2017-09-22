@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 import {
@@ -16,9 +15,7 @@ import {
 
 import bindModel from '../lib/bindModel';
 import { clientSocket } from '../lib/util';
-import { createContainer } from '../lib/SimpleStore';
 import db from '../lib/rethinkdb';
-import employeeList from '../reducers/employeeList';
 import Employees from '../models/Employees';
 
 import './App.scss';
@@ -26,40 +23,63 @@ import './App.scss';
 let employeeService = null;
 
 export class App extends Component {
-  state = { name: '', rank: '' };
+  state = {
+    name: '',
+    rank: '',
+
+    employeeList: [{
+      name: 'Bob',
+      rank: 'Manager',
+      sn: '12345'
+    }]
+  };
 
   componentDidMount() {
-    const { resetEmployees } = this.props;
+    db.subscribe('employees', (employeeList) => {
+      this.setState({ employeeList });
+    });
 
-    db.subscribe('employees', resetEmployees);
     employeeService = employeeService || new Employees(clientSocket, db);
   }
+
+  addEmployee = ({ name, rank, sn }) => {
+    const { employeeList } = this.state;
+    employeeList.push({ name, rank, sn });
+    this.setState({ employeeList });
+    employeeService.create({ name, rank, sn });
+  };
+
+  removeEmployee = (employee) => {
+    const { employeeList } = this.state;
+    const index = employeeList.indexOf(employee);
+
+    if (index >= 0) {
+      employeeList.splice(index, 1);
+    }
+
+    this.setState({ employeeList });
+  };
 
   onSubmit = (e) => {
     e.preventDefault();
 
     const { name, rank } = this.state;
     const sn = (new Date()).valueOf();
-    const { addEmployee } = this.props;
 
-    addEmployee({ name, rank, sn });
-    employeeService.create({ name, rank, sn });
-
+    this.addEmployee({ name, rank, sn });
     this.setState ({ name: '', rank: '' });
   };
 
   onClick = (employee) => {
-    const { removeEmployee } = this.props;
-
     return () => {
       employeeService.remove(employee);
-      removeEmployee(employee);
+      this.removeEmployee(employee);
     };
   };
 
   render() {
     const { model } = bindModel(this);
-    const { employeeList } = this.props;
+    const { employeeList } = this.state;
 
     return (
       <Row>
@@ -106,11 +126,4 @@ export class App extends Component {
   }
 }
 
-App.propTypes = {
-  resetEmployees: PropTypes.func,
-  addEmployee: PropTypes.func,
-  removeEmployee: PropTypes.func,
-  employeeList: PropTypes.array
-};
-
-export default createContainer(App, employeeList);
+export default App;
