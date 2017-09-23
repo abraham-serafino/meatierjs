@@ -12,7 +12,7 @@ function app(router) {
     );
   });
 
-  router.get('/edit', edit(router));
+  edit(router);
 }
 
 export default app;
