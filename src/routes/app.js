@@ -1,15 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import App from '../components/App';
+import edit from './edit';
+import EmployeeList from '../components/EmployeeList';
 
 function app(router) {
   router.get('/', () => {
     ReactDOM.render(
-      <App />,
+      <EmployeeList router={router} />,
       document.getElementById('app')
     );
   });
+
+  router.get('/edit', edit(router));
 }
 
 export default app;

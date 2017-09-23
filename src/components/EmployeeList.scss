@@ -1,11 +1,9 @@
+@import 'EmployeeRow';
+
 .glyphicon-remove {
   float: right;
 
   &:hover {
     cursor: pointer;
   }
-}
-
-.row {
-  margin-top: 1em;
 }

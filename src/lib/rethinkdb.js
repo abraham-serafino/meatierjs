@@ -23,6 +23,7 @@ function publish(socket, collectionName, getQuery) {
   try {
     getQuery().changes().run(getConnection(), (err, changes) => {
       if (err) throw err;
+
       sendLatest(socket, collectionName, getQuery);
 
       changes.each((err) => {
@@ -35,9 +36,22 @@ function publish(socket, collectionName, getQuery) {
   }
 }
 
-function subscribe(collectionName, callback) {
-  if (clientSocket) {
-    clientSocket.on(`collection:${collectionName}`, callback);
+const collections = {};
+
+function subscribe(collectionName, component) {
+  collections.component = component;
+
+  if (collections[collectionName]) {
+    component.setState({ [collectionName]: collections[collectionName] });
+  }
+
+  if (clientSocket && !collections.handler) {
+    clientSocket.on(`collection:${collectionName}`, (data) => {
+      collections[collectionName] = data;
+      if (collections.component) {
+        collections.component.setState({ [collectionName]: data });
+      }
+    });
   }
 }
 
