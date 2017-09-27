@@ -22,8 +22,10 @@ let employeeService = null;
 
 class EmployeeEditor extends Component {
   state = {
-    name: '',
-    rank: ''
+    name: ``,
+    rank: ``,
+    username: localStorage.getItem(`username`) || ``,
+    password: localStorage.getItem(`password`) || ``
   };
 
   componentDidMount() {
@@ -31,7 +33,8 @@ class EmployeeEditor extends Component {
   }
 
   addEmployee = ({ name, rank, sn }) => {
-    employeeService.create({ name, rank, sn });
+    const { username, password } = this.state;
+    employeeService.create({ name, rank, sn, username, password });
   };
 
   onSubmit = (e) => {
@@ -42,7 +45,7 @@ class EmployeeEditor extends Component {
     const sn = (new Date()).valueOf();
 
     this.addEmployee({ name, rank, sn });
-    router.navigate('/');
+    router.navigate(`/`);
   };
 
   render() {
@@ -57,7 +60,7 @@ class EmployeeEditor extends Component {
                 Full Name
               </Col>
               <Col sm={8}>
-                <FormControl type="text" {...model('name')} /><br/>
+                <FormControl type="text" {...model(`name`)} /><br/>
               </Col>
             </FormGroup>
 
@@ -66,7 +69,7 @@ class EmployeeEditor extends Component {
                 Rank
               </Col>
               <Col sm={8}>
-                <FormControl type="text" {...model('rank')} /><br/>
+                <FormControl type="text" {...model(`rank`)} /><br/>
               </Col>
             </FormGroup>
 

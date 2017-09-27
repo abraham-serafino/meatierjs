@@ -4,8 +4,8 @@ import { shallow } from 'enzyme';
 
 import EmployeeList from './EmployeeList';
 
-describe('EmployeeList component', () => {
-  it('should render', () => {
+describe(`EmployeeList component`, () => {
+  it(`should render`, () => {
     expect(shallow(<EmployeeList />)).toMatchSnapshot();
   });
 });

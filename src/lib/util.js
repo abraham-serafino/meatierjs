@@ -2,7 +2,7 @@ import io from 'socket.io-client';
 
 const clientSocket = io();
 
-clientSocket.on('reconnect', () => {
+clientSocket.on(`reconnect`, () => {
   window.location.reload();
 });
 

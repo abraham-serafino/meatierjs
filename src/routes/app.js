@@ -5,10 +5,10 @@ import edit from './edit';
 import EmployeeList from '../components/EmployeeList';
 
 function app(router) {
-  router.get('/', () => {
+  router.get(`/`, () => {
     ReactDOM.render(
       <EmployeeList router={router} />,
-      document.getElementById('app')
+      document.getElementById(`app`)
     );
   });
 

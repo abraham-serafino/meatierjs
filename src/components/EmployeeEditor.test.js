@@ -4,8 +4,8 @@ import { shallow } from 'enzyme';
 
 import EmployeeEditor from './EmployeeEditor';
 
-describe('EmployeeEditor component', () => {
-  it('should render', () => {
+describe(`EmployeeEditor component`, () => {
+  it(`should render`, () => {
     expect(shallow(<EmployeeEditor />)).toMatchSnapshot();
   });
 });

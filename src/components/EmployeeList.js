@@ -1,3 +1,4 @@
+import merge from 'lodash.merge';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
@@ -21,20 +22,22 @@ let employeeService = null;
 class EmployeeList extends Component {
   state = {
     employees: [{
-      name: 'Bob',
-      rank: 'Manager',
-      sn: '12345'
-    }]
+      name: `Bob`,
+      rank: `Manager`,
+      sn: `12345`
+    }],
+    username: localStorage.getItem(`username`) || ``,
+    password: localStorage.getItem(`password`) || ``
   };
 
   componentDidMount() {
-    db.subscribe('employees', this);
+    db.subscribe(`employees`, this);
     employeeService = employeeService || new Employees(clientSocket, db);
   }
 
   removeEmployee = (employee) =>
     () => {
-      const { employees } = this.state;
+      const { employees, username, password } = this.state;
       const index = employees.indexOf(employee);
 
       if (index >= 0) {
@@ -42,7 +45,7 @@ class EmployeeList extends Component {
       }
 
       this.setState({ employees }, () => {
-        employeeService.remove(employee);
+        employeeService.remove(merge(employee, { username, password }));
       });
     };
 
@@ -67,7 +70,7 @@ class EmployeeList extends Component {
         <Row>
           <Col smOffset={1} sm={3}>
             <Button onClick={() => {
-              router.navigate('/edit');
+              router.navigate(`/edit`);
             }}>Add</Button>
           </Col>
         </Row>

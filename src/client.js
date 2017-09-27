@@ -1,6 +1,10 @@
 import browserExpress from 'browser-express';
+import md5 from 'md5';
 
 import app from './routes/app';
+
+localStorage.setItem(`NoBS.username`, `admin`);
+localStorage.setItem(`NoBS.password`, md5(`password`));
 
 const router = browserExpress({
   interceptLinks: true,
@@ -12,4 +16,4 @@ const router = browserExpress({
 app(router);
 
 router.listen(() => {});
-router.navigate('/');
+router.navigate(`/`);

@@ -2,8 +2,8 @@ import db from 'rethinkdb';
 
 let clientSocket;
 
-if (typeof window !== 'undefined') {
-  clientSocket = require('./util').clientSocket;
+if (typeof window !== `undefined`) {
+  clientSocket = require(`./util`).clientSocket;
 }
 
 let _connection = null;
@@ -55,8 +55,8 @@ function subscribe(collectionName, component) {
   }
 }
 
-if (typeof window === 'undefined') {
-  db.connect({host: 'localhost', port: 28015}, (err, connection) => {
+if (typeof window === `undefined`) {
+  db.connect({host: `localhost`, port: 28015}, (err, connection) => {
     if (err) {
       console.error(JSON.stringify(err, null, 2));
       throw err;

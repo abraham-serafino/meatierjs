@@ -1,6 +1,6 @@
 import requireDir from 'require-dir';
 
-const services = requireDir('../models');
+const services = requireDir(`../models`);
 
 function getModels(socket) {
   for (const key of Object.keys(services)) {
