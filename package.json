@@ -118,7 +118,8 @@
   "jest": {
     "testPathIgnorePatterns": [
       "/node_modules/",
-      "/dist/"
+      "/dist/",
+      "/src/config/"
     ],
     "transform": {
       ".*": "jest-css-modules",

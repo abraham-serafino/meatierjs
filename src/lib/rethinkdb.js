@@ -1,5 +1,7 @@
 import db from 'rethinkdb';
 
+import config from '../config';
+
 let clientSocket;
 
 if (typeof window !== `undefined`) {
@@ -56,7 +58,9 @@ function subscribe(collectionName, component) {
 }
 
 if (typeof window === `undefined`) {
-  db.connect({host: `localhost`, port: 28015}, (err, connection) => {
+  const { host, port } = config.db;
+
+  db.connect({ host, port }, (err, connection) => {
     if (err) {
       console.error(JSON.stringify(err, null, 2));
       throw err;

@@ -1,4 +1,3 @@
-import merge from 'lodash.merge';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
@@ -45,7 +44,11 @@ class EmployeeList extends Component {
       }
 
       this.setState({ employees }, () => {
-        employeeService.remove(merge(employee, { username, password }));
+        employeeService.remove({
+          ...employee,
+          username,
+          password
+        });
       });
     };
 
